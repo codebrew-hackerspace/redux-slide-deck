@@ -1,0 +1,5 @@
+{
+    "version": 2,
+    "name": "mdx-deck-redux-examples",
+    "builds": [{ "src": "deck.mdx", "use": "@now/mdx-deck" }]
+  }
