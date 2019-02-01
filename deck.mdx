@@ -80,12 +80,104 @@ function handleChange() {
 store.subscribe(handleChange);
 ```
 
+
 ---
 
+# Containers
+
+We want to pass in the necessary actions and state from the redux store intio the components
+
+
+
+```javascript
+import React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import Peach from "./../components/Peach"
+import { washPeach, eatPeach, rotPeach } from './../actions';
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    washPeach,
+    eatPeach,
+    rotPeach,
+}, dispatch);
+
+
+const mapStateToProps = (state) => ({
+    dirty: state.peach.dirty,
+    remainingBites: state.peach.remainingBites,
+    color: state.peach.color
+});
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Peach);
+```
+
+
+---
+
+# Components 
+
+You components can be passed in all relevant information from state and the relevant actions, abstracting away that logic. 
+
+
+```javascript
+import React from 'react';
+import { washPeach, eatPeach, rotPeach } from './../actions';
+import { bindActionCreators } from 'redux';
+
+const Peach = ({ washPeach, eatPeach, rotPeach, dirty, remainingBites, color  }) => (
+    <div>
+        <p>Dirty: {dirty ? 'true' : 'false'}</p>
+        <p>Remaining bites: {remainingBites}</p>
+        <p>Color: {color}</p>
+
+        <button onClick={washPeach}>Wash peach</button>
+        <button onClick={eatPeach}>Eat peach</button>
+        <button onClick={rotPeach}>Rot peach</button>
+    </div>
+);
+
+export default Peach
+```
+
+
+
+---
+
+# Let's put it all together
+
+---
+
+<img src="images/flow.png" size="5%" />
+
+---
 # Why is it important?
 
-Pure Functions
+---
 
-Isolate State changes
+# What are Pure Functions?
+
+ * Given the same values it returns the same things
+ * No side effects (mutation of local variables or anything else)
 
 ---
+
+Redux does this through reducers, which are passed in a current state and an action and return a new state. This means the old state is never mutated 
+
+Isolates all state changes and gives only the necessary actions and state variables to a component
+
+---
+
+# When is it used?
+
+---
+
+* State Management get's complicated as the app scales
+
+* Caching page state by maintaining a seperate store
+
+
+---
+
+# Thanks for watching :) 
